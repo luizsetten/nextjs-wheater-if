@@ -53,13 +53,22 @@ function Chart({dataSet, color = 'rgb(255, 99, 132)', darkestColor = 'rgba(255, 
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        display: false
+        // position: 'top' as const,
       },
       title: {
         display: true,
         text: title,
       },
-    },  
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: label
+        }
+      }
+    } 
   };
 
   const data: ChartData<"line"> = {
