@@ -45,16 +45,19 @@ export const data = {
   ],
 };
 
-function Chart({dataSet, color = 'rgb(255, 99, 132)', darkestColor = 'rgba(255, 99, 132, 0.5)', label = "", title}) {
-  const labels = dataSet.map(item => item.created_at);
+function Chart({dataSet, color = 'rgb(255, 99, 132)', darkestColor = 'rgba(255, 99, 132, 0.5)', label = "", title, hasThree = false}) {
+  const labels = dataSet.map(item => item.reference_date);
   const values = dataSet.map(item => item.value);
+
+  // const valuesMin = dataSet.map(item => item.valueMin);
+  // const valuesMax = dataSet.map(item => item.valueMax);
 
   const options: OptionsType = {
     responsive: true,
     plugins: {
       legend: {
-        display: false
-        // position: 'top' as const,
+        display: hasThree,
+        position: 'top' as const,
       },
       title: {
         display: true,
@@ -71,17 +74,37 @@ function Chart({dataSet, color = 'rgb(255, 99, 132)', darkestColor = 'rgba(255, 
     } 
   };
 
-  const data: ChartData<"line"> = {
-    labels,
-    datasets: [
-      {
-        label: label,
-        data: values,
-        borderColor: color,
-        backgroundColor: darkestColor,
-      }
-    ],
-  };
+  const datasets = hasThree ? [
+    {
+      label: title + " mínima",
+      data: dataSet.map(item => item.valueMin),
+      borderColor: 'rgba(54, 130, 251)',
+      backgroundColor: 'rgba(54, 130, 251, 0.5)',
+    },
+    {
+      label: title + " média",
+      data: values,
+      borderColor: color,
+      backgroundColor: darkestColor,
+    },
+    {
+      label: title + " máxima",
+      data: dataSet.map(item => item.valueMax),
+      borderColor: 'rgba(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    }
+  ] : [
+    {
+      label: title + " média",
+      data: values,
+      borderColor: color,
+      backgroundColor: darkestColor,
+    }
+  ]
+
+  console.log("dataset", datasets)
+
+  const data: ChartData<"line"> = { labels, datasets };
 
   return <Line options={options} data={data} />;
 }
