@@ -1,10 +1,27 @@
-import { Line } from 'react-chartjs-2';
+import { format } from "date-fns";
+import PtBR from "date-fns/locale/pt-BR"
 
-function Logs() {
-  return <div> 
-    {/* <Line data={{}}/> */}
-    https://react-chartjs-2.netlify.app/examples/line-chart
-     </div>
+import Chart from "../../components/Chart";
+
+type DataType = {
+  created_at: string | Date;
+  value: number;
 }
 
-export default Logs;
+const formatter = (date: Date): string => format(date, "kk'h' dd/MM/yy", { locale: PtBR});
+
+
+function Logs() {
+  const data: DataType[] = [{created_at: formatter(new Date()), value: 2}, {created_at: formatter(new Date()), value: 2},{created_at: new Date(), value: 2}];
+
+  return (
+  <div style={{ display: "flex"}}>  
+    <Chart dataSet={data} title="Grafico bonitoso" color="#5839" darkestColor="#5837" label="Temperatura"/>
+    <Chart dataSet={data} title="Grafico bonitoso" color="#5839" darkestColor="#5837" label="Temperatura"/>
+    <Chart dataSet={data} title="Grafico bonitoso" color="#5839" darkestColor="#5837" label="Temperatura"/>
+  </div>
+  );
+}
+
+
+export default Logs
