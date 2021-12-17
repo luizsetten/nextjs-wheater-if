@@ -83,9 +83,10 @@ function Logs() {
 
   async function loadData() {
     try {
-      const {data} = await axiosInstance.get(`logs/5663b746-744a-40a4-a590-a7ac9abc48d8/2021-12-05T21:00:00.000Z/2021-12-06T01:00:00.000Z`)
+      // const {data} = await axiosInstance.get(`logs/5663b746-744a-40a4-a590-a7ac9abc48d8/2021-12-05T21:00:00.000Z/2021-12-06T01:00:00.000Z`)
+      const {data} = await axiosInstance.get(`logs/5663b746-744a-40a4-a590-a7ac9abc48d8/${minDate.toISOString()}/${maxDate.toISOString()}`)
       
-      console.log("chegou", data);
+      console.log("chegou", data, minDate, maxDate);
     } catch {
 
     }
@@ -93,7 +94,7 @@ function Logs() {
 
   async function downloadCSV() {
     try {
-      const {data} = await axiosInstance.get(`logs/5663b746-744a-40a4-a590-a7ac9abc48d8/2021-12-05T21:00:00.000Z/2021-12-06T01:00:00.000Z/download`)
+      const {data} = await axiosInstance.get(`logs/5663b746-744a-40a4-a590-a7ac9abc48d8/${minDate.toISOString()}/${maxDate.toISOString()}/download`)
 
       const url = window.URL.createObjectURL(new Blob([data]));
       const link = document.createElement('a');
@@ -116,7 +117,7 @@ function Logs() {
         <Input type="date" onChange={event => setMinDate(new Date(event.target.value))} />
       </Box>
       <Box maxW="10rem">
-        <Input type="date" />
+        <Input type="date" onChange={event => setMaxDate(new Date(event.target.value))}/>
       </Box>
       <Box>
         <Button onClick={loadData} colorScheme='blue'>Carregar</Button>
@@ -135,7 +136,7 @@ function Logs() {
       </Box>
 
       <Box p="1" m={{sm: 2, lg: 4}} borderWidth="1px" borderRadius="lg">
-        <Chart dataSet={humidity} hasThree title="Humidade" color="#5839" darkestColor="#5837" label="Humidade (%)"/>
+        <Chart dataSet={humidity} hasThree title="Umidade" color="#5839" darkestColor="#5837" label="Umidade (%)"/>
       </Box>
 
       <Box p="1" m={{sm: 2, lg: 4}} borderWidth="1px" borderRadius="lg">
